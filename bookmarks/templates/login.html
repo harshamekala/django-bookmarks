@@ -1,0 +1,16 @@
+<html>
+<body>
+    {% if message %}
+    <p> {{message}}</p>
+    {% endif %}
+
+<h2>Login</h2>
+<h3>Please Login to Access Bookmarks</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+
+</body>
+</html>
