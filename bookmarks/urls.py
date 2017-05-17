@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^registration/$', registration_view, name = 'registration'),
     url(r'^$', main_page, name= 'index' ),
     url(r'^user/(\w+)/$',user_page, name= 'users'),
+    url(r'^addbookmark/$', bookmarks, name = 'Bookmark')
 ]

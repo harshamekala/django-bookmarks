@@ -31,3 +31,8 @@ class RegistrationForm(forms.Form):
         except User.DoesNotExist:
             return username
         raise forms.ValidationError("Username is already taken")
+
+class BookmarksForm(forms.Form):
+    url = forms.URLField(label= "URL")
+    title = forms.CharField(label="Title")
+    tags = forms.CharField(label= "Tags")

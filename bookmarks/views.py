@@ -1,6 +1,7 @@
 from django.shortcuts import *
 from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import *
 from bookmarks.models import *
 from bookmarks.forms import *
@@ -64,3 +65,23 @@ def registration_view(request):
             'form' : form
             }
         return render(request, 'registration.html', context)
+
+@login_required
+def bookmarks(request):
+    if request.method =='POST':
+        form = BookmarksForm(request.POST)
+        if form.is_valid():
+            link, created = Link.objects.get_or_create(url= form.cleaned_data['url'])
+            bookmark, created = Bookmark.objects.get_or_create(user_id= request.user, link_id=link)
+            bookmark.title = form.cleaned_data['title']
+            if not created:
+                bookmark.tag_set.clear()
+                tag_names = form.cleaned_data['tags'].split()
+                for tag_name in tag_names:
+                    tag, created = Tag.objects.get_or_create(name = tag_name)
+                    bookmark.tag_set.add(tag)
+                    bookmark.save()
+                    return redirect('/bookmarks/user/%s' %request.user)
+    else:
+        form = BookmarksForm()
+        return render(request, 'add_bookmark.html', {'form': form})
