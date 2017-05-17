@@ -19,6 +19,7 @@ from .views import *
 urlpatterns = [
     url(r'^login/$', login_view, name ='login'),
     url(r'^logout/$', logout_view, name = 'logout'),
+    url(r'^registration/$', registration_view, name = 'registration'),
     url(r'^$', main_page, name= 'index' ),
     url(r'^user/(\w+)/$',user_page, name= 'users'),
 ]
