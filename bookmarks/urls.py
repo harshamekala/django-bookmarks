@@ -17,10 +17,13 @@ from django.conf.urls import url, include
 from .views import *
 
 urlpatterns = [
+    # Session Management
     url(r'^login/$', login_view, name ='login'),
     url(r'^logout/$', logout_view, name = 'logout'),
     url(r'^registration/$', registration_view, name = 'registration'),
+    #Actual URLS
     url(r'^$', main_page, name= 'index' ),
     url(r'^user/(\w+)/$',user_page, name= 'users'),
-    url(r'^addbookmark/$', bookmarks, name = 'Bookmark')
+    url(r'^addbookmark/$', bookmarks, name = 'bookmark'),
+    url(r'^tag/([^\s]+)/$', tag_page, name = 'tags'),
 ]

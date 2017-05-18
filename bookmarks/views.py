@@ -8,6 +8,7 @@ from bookmarks.forms import *
 
 # Create your views here.
 
+@login_required
 def main_page(request):
     context = {
     'title' : "Django Bookmarks",
@@ -16,12 +17,14 @@ def main_page(request):
     }
     return render(request, 'mainpage.html', context)
 
+@login_required
 def user_page(request, username):
     user= get_object_or_404(User, username=username)
-    bookmarks= Bookmark.objects.all()
+    bookmarks= user.bookmark_set.all()
     context = {
     'user': request.user,
-    'bookmarks': bookmarks
+    'bookmarks': bookmarks,
+    'show_tags' : True,
     }
     return render(request, 'userpage.html', context)
 
@@ -45,10 +48,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    context = {
-    'message': "You have been Successfully Logged Out"
-    }
-    return render(request, 'login.html', context)
+    return redirect('/bookmarks/login/')
 
 def registration_view(request):
     if request.method =='POST':
@@ -85,3 +85,14 @@ def bookmarks(request):
     else:
         form = BookmarksForm()
         return render(request, 'add_bookmark.html', {'form': form})
+
+def tag_page(request, tag_name):
+    tag = get_object_or_404(Tag, name=tag_name)
+    bookmarks = tag.bookmarks.all()
+    context ={
+    'bookmarks': bookmarks,
+    'show_tags': True,
+    'show_user' : True,
+    'tag_name': tag_name
+    }
+    return render(request,'tag.html', context)

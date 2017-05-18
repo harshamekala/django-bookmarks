@@ -1,0 +1,27 @@
+{% if bookmarks %}
+        {% for bookmark in bookmarks %}
+        <li>
+        <a href="{{bookmark.link_id.url}}"> {{bookmark.title}} </a>
+    {% if show_tags %}
+</br>
+        Tags:
+        {% if bookmark.tag_set.all %}
+            {% for tag in bookmark.tag_set.all %}
+             <a href="/bookmarks/tag/{{tag.name}}"> {{tag.name}} </a>
+            {% endfor %}
+        {% else %}
+        None.
+        {% endif %}
+  {% endif %}
+    {% if show_user %}
+</br>
+        Posted By :
+        <a href="/bookmarks/user/{{bookmark.user_id.username}}">
+            {{bookmark.user_id.username}} </a>
+</br>
+    {% endif %}
+        {% endfor %}
+    </li>
+{% else %}
+<p> No Bookmarks Found </p>
+{% endif %}
