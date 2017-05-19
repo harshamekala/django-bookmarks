@@ -1,9 +1,15 @@
-<html>
-<head>
-    <title> {{ title}} </title>
-</head>
-<body>
-    <h1> {{page_title}} </h1>
-    <h2> {{page_body}} </h2>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> Welcome to Social Bookmarking </h1>
+
+{% endblock %}
+
+{% block external %}
+<script>
+$(document).ready(function(){
+$("#nav").show();
+});
+</script>
+{% endblock %}

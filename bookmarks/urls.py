@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^user/(\w+)/$',user_page, name= 'users'),
     url(r'^addbookmark/$', bookmarks, name = 'bookmark'),
     url(r'^tag/([^\s]+)/$', tag_page, name = 'tags'),
+    url(r'^search/$', searchview, name = 'search')
 ]

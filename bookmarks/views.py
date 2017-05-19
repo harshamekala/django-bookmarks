@@ -86,6 +86,7 @@ def bookmarks(request):
         form = BookmarksForm()
         return render(request, 'add_bookmark.html', {'form': form})
 
+@login_required
 def tag_page(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
     bookmarks = tag.bookmarks.all()
@@ -96,3 +97,30 @@ def tag_page(request, tag_name):
     'tag_name': tag_name
     }
     return render(request,'tag.html', context)
+
+@login_required
+def searchview(request):
+    form = bookmarkSearchForm()
+    bookmarks = []
+    show_results = False
+    if 'query' in request.GET:
+        show_results = True
+        print(request.GET)
+        query = request.GET['query'].split()
+        print("Query after the split is {0}".format(query))
+        if query:
+            query = query[0]
+            form = bookmarkSearchForm({'query': query})
+            bookmarks = Bookmark.objects.filter(title__icontains= query)[:10]
+            print (bookmarks)
+    context = {
+    'form': form,
+    'bookmarks': bookmarks,
+    'show_results': show_results,
+    'show_user': True,
+    'show_tags': True
+    }
+    if 'ajax' in request.GET.keys():
+        return render(request, 'bookmark_list.html', context)
+    else:
+        return render(request, 'search.html', context)

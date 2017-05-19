@@ -1,12 +1,18 @@
+{% load staticfiles %}
 <html>
 <head>
     <title> Django Bookmarks </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {% block external %} {% endblock %}
 </head>
 <body>
     <div id ="nav">
-        <a href="/bookmarks/"> Home </a>
             welcome {{user.username}}
-            (<a href="/bookmarks/logout"> Logout </a>)
+            (<a href="/bookmarks/logout"> Logout </a>) |
+            <a href="/bookmarks/"> Home </a> |
+            <a href="/bookmarks/search/">Bokmarks Search</a> |
+        </div>
 {% block content %} {% endblock %}
 </body>
 </html>
