@@ -4,12 +4,7 @@
 
 <h1> Welcome to Social Bookmarking </h1>
 
-{% endblock %}
+<h2> Bookmarks Shared By Users </h2>
+{% include "shared_bookmark_list.html"%}
 
-{% block external %}
-<script>
-$(document).ready(function(){
-$("#nav").show();
-});
-</script>
 {% endblock %}

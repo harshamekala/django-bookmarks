@@ -36,6 +36,7 @@ class BookmarksForm(forms.Form):
     url = forms.URLField(label= "URL")
     title = forms.CharField(label="Title")
     tags = forms.CharField(label= "Tags")
+    share = forms.BooleanField(label= "Share on the Main Page", required = False)
 
 class bookmarkSearchForm(forms.Form):
     query = forms.CharField(label="Search")

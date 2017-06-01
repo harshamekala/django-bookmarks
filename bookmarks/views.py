@@ -15,6 +15,8 @@ def main_page(request):
     'page_title' : "Welcome django Bookmarks",
     'page_body' : "Where you can store and share Bookmarks"
     }
+    shared_bookmarks = SharedBookmark.objects.order_by('-date')[:10]
+    context['shared_bookmarks'] = shared_bookmarks
     return render(request, 'mainpage.html', context)
 
 @login_required
@@ -81,7 +83,11 @@ def bookmarks(request):
                     tag, created = Tag.objects.get_or_create(name = tag_name)
                     bookmark.tag_set.add(tag)
                     bookmark.save()
-                    return redirect('/bookmarks/user/%s' %request.user)
+            if form.cleaned_data['share']:
+                shared, created = SharedBookmark.objects.get_or_create(bookmark=bookmark)
+                if created:
+                    shared.users_voted.add(request.user)
+            return redirect('/bookmarks/user/%s' %request.user)
     else:
         form = BookmarksForm()
         return render(request, 'add_bookmark.html', {'form': form})

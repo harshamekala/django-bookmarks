@@ -1,0 +1,12 @@
+{% if shared_bookmarks %}
+<ul>
+    {% for shared_bookmark in shared_bookmarks %}
+    <li>
+    <a href="{{shared_bookmark.bookmark.link_id}}"> {{ shared_bookmark.bookmark.title}} </a>
+</br>
+    Posted By : <a href="/bookmarks/user/{{shared_bookmark.bookmark.user_id}}"> {{shared_bookmark.bookmark.user_id.username}}</a> |
+    votes : {{shared_bookmark.votes}}
+</li>
+    {% endfor %}
+</ul>
+{% endif %}
