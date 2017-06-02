@@ -5,7 +5,7 @@
     <a href="{{shared_bookmark.bookmark.link_id}}"> {{ shared_bookmark.bookmark.title}} </a>
 </br>
     Posted By : <a href="/bookmarks/user/{{shared_bookmark.bookmark.user_id}}"> {{shared_bookmark.bookmark.user_id.username}}</a> |
-    votes : {{shared_bookmark.votes}}
+    votes : {{shared_bookmark.votes}} | <a href="/bookmarks/vote/{{shared_bookmark.id}}"> [+] </a>
 </li>
     {% endfor %}
 </ul>

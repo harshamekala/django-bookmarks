@@ -130,3 +130,13 @@ def searchview(request):
         return render(request, 'bookmark_list.html', context)
     else:
         return render(request, 'search.html', context)
+
+@login_required
+def voting(request, id):
+    shared_bookmark = get_object_or_404(SharedBookmark, id=id)
+    user_voted = shared_bookmark.users_voted.filter(username= request.user.username)
+    if not user_voted:
+        shared_bookmark.votes += 1
+        shared_bookmark.users_voted.add(request.user)
+        shared_bookmark.save()
+    return redirect('index')
