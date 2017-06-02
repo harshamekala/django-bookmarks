@@ -2,6 +2,7 @@ from django.shortcuts import *
 from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.contrib.auth import *
 from bookmarks.models import *
 from bookmarks.forms import *
@@ -115,9 +116,11 @@ def searchview(request):
         query = request.GET['query'].split()
         print("Query after the split is {0}".format(query))
         if query:
-            query = query[0]
+            q = Q()
+            for keyword in query:
+                q = q | Q(title__icontains = keyword)
             form = bookmarkSearchForm({'query': query})
-            bookmarks = Bookmark.objects.filter(title__icontains= query)[:10]
+            bookmarks = Bookmark.objects.filter(q)[:10]
             print (bookmarks)
     context = {
     'form': form,
