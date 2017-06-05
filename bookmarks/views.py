@@ -2,12 +2,15 @@ from django.shortcuts import *
 from django.http import HttpResponse, Http404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, InvalidPage
 from django.db.models import Q
 from django.contrib.auth import *
 from bookmarks.models import *
 from bookmarks.forms import *
 
 # Create your views here.
+
+ITEMS_PER_PAGE = 3
 
 @login_required
 def main_page(request):
@@ -23,11 +26,29 @@ def main_page(request):
 @login_required
 def user_page(request, username):
     user= get_object_or_404(User, username=username)
-    bookmarks= user.bookmark_set.all()
+    query_set = user.bookmark_set.order_by('-id')
+    #print(request.GET)
+    paginator = Paginator(query_set, ITEMS_PER_PAGE)
+    try:
+        page_number = int(request.GET['page'])
+    except(KeyError, ValueError):
+        page_number = 1
+    try:
+        page = paginator.page(page_number)
+    except InvalidPage:
+        raise Http404
+    bookmarks = page.object_list
     context = {
     'user': request.user,
     'bookmarks': bookmarks,
     'show_tags' : True,
+    'show_paginator': paginator.num_pages >1,
+    'has_previous': page.has_previous(),
+    'has_next': page.has_next(),
+    'page': page_number,
+    'pages': paginator.num_pages,
+    'next_page': page_number + 1,
+    'previous_page': page_number - 1,
     }
     return render(request, 'userpage.html', context)
 
@@ -143,3 +164,26 @@ def voting(request, id):
         shared_bookmark.users_voted.add(request.user)
         shared_bookmark.save()
     return redirect('index')
+
+@login_required
+def friends_page(request, username):
+    user = get_object_or_404(User, username= username)
+    friends = [friendship.to_friend for friendship in user.to_friend.all()]
+    friend_bookmarks = Bookmark.objects.filter(user_id__in = friends).order_by('-id')
+    context = {
+    'username' : username,
+    'friends' : friends,
+    'bookmarks' : friend_bookmarks,
+    'show_tags': True,
+    }
+    return render(request, 'friends_page.html', context)
+
+@login_required
+def friend_add(request):
+    if 'username' in request.GET:
+        friend = get_object_or_404(User, username= request.GET['username'])
+        friendship = Friendship(from_friend = request.user, to_friend = friend)
+        friendhip.save()
+        return redirect('/bookmarks/friends/{}/'.format(request.user.username))
+    else:
+        raise Http404

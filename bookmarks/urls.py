@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^tag/([^\s]+)/$', tag_page, name = 'tags'),
     url(r'^search/$', searchview, name = 'search'),
     url(r'^vote/(?P<id>[0-9]+)/$', voting , name ='vote'),
+    url(r'^friends/(\w+)/$', friends_page, name = 'friends'),
+    url(r'^friend/add/$', friend_add, name = 'add_friend'),
 ]

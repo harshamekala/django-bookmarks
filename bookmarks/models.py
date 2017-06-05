@@ -33,3 +33,13 @@ class SharedBookmark(models.Model):
 
     def __str__(self):
         return ("{}-{}".format(self.bookmark, self.votes))
+
+class Friendship(models.Model):
+    from_friend = models.ForeignKey(User, related_name = "from_friend")
+    to_friend = models.ForeignKey(User, related_name = "to_friend")
+
+    def __str__(self):
+        return ("{} - {}".format(self.from_friend, self.to_friend))
+
+    class meta:
+        unique_together = ('to_friend', 'from_friend')

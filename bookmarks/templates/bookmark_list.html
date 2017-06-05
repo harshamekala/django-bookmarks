@@ -22,6 +22,17 @@
     {% endif %}
         {% endfor %}
     </li>
+{% if show_paginator %}
+<div class = "paginator">
+    {% if has_previous %}
+        <a href="?page={{ previous_page }}"> &laquo; Previous </a> &nbsp;
+    {% endif %}
+    {% if has_next %}
+        <a href="?page={{next_page}}"> Next &raquo; </a>
+        {% endif %}
+        (page {{page}} of {{pages}})
+    </div>
+    {% endif %}
 {% else %}
 <p> No Bookmarks Found </p>
 {% endif %}

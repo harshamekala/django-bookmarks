@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+<h2> Friends For {{username}} </h2>
+
+{% block content %}
+<h2> Friend List </h2>
+{% if friends %}
+<ul>
+    {% for friend in friends %}
+    <li> <a href= "/bookmarks/user/{{friend.username}}"> {{friend.username}} </a> </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p> NO Friends Found </p>
+{% endif %}
+<h2> Friend Bookmarks </h2>
+{% include "bookmark_list.html" %}
+
+{% endblock %}
