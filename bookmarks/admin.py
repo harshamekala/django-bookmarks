@@ -3,6 +3,9 @@ from bookmarks.models import *
 
 # Register your models here.
 
+admin.site.site_header = 'Tejas | Django Bookmarks Web Administration'
+admin.site.index_title = 'Tejas | Django Bookmarks Web Administration'
+
 admin.site.register(Link)
 admin.site.register(Bookmark)
 admin.site.register(Tag)
