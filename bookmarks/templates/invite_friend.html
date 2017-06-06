@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1> Invite a Friend </h1>
+Enter your friend name and email below,
+and click "send invite" to invite your friend to join the site
+
+<form method = "post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit"> Invite </button>
+</form>
+{% endblock %}

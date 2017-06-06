@@ -40,3 +40,7 @@ class BookmarksForm(forms.Form):
 
 class bookmarkSearchForm(forms.Form):
     query = forms.CharField(label="Search")
+
+class InviteForm(forms.Form):
+    name = forms.CharField(label= "Name")
+    email = forms.EmailField(label= "E-Mail")

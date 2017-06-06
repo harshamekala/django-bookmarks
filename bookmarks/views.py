@@ -187,3 +187,26 @@ def friend_add(request):
         return redirect('/bookmarks/friends/{}/'.format(request.user.username))
     else:
         raise Http404
+
+@login_required
+def invite(request):
+    if request.method == 'POST':
+        form = InviteForm(request.POST)
+        if form.is_valid():
+            invitation = Invitation(
+            name = form.cleaned_data['name'],
+            email = form.cleaned_data['email'],
+            code = User.objects.make_random_password(20),
+            sender = request.user
+            )
+            invitation.save()
+            invitation.send()
+            return redirect('/bookmarks/friend/invite')
+    form = InviteForm()
+    return render(request,'invite_friend.html', {'form':form})
+
+@login_required
+def invite_register(request, code):
+    print(request)
+    print(code)
+    return redirect('/bookmarks/registration/')

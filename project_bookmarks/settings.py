@@ -120,3 +120,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/bookmarks/login'
+
+SITE_HOST = '127.0.0.1:8000'
+DEFAULT_FROM_EMAIL = 'harshavardhanm@india.tejasnetworks.com'
+EMAIL_HOST = 'tejmail.india.tejasnetworks.com'
+EMAIL_PORT = 465 #80, 25, or 3535
+EMAIL_HOST_USER = 'harshavardhanm@india.tejasnetworks.com'
+EMAIL_HOST_PASSWORD = 'Iltwat123'
+EMAIL_USE_TLS = True
